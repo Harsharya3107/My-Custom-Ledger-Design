@@ -1,9 +1,9 @@
 package com.ledger.repository;
 
 import com.ledger.domain.Entry;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.awt.print.Pageable;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,4 +15,8 @@ public interface EntryRepository extends JpaRepository<Entry, UUID> {
     List<Entry> findByAccountIdAndSequenceNumberGreaterThanOrderBySequenceNumberAsc(
             UUID accountId, long afterSequenceNumber, Pageable limit
     );
+
+    // Backs the idempotent-replay path in LedgerService: rebuild the response
+    // for an already-posted transaction without touching accounts.balance again.
+    List<Entry> findByTransactionIdOrderBySequenceNumberAsc(UUID transactionId);
 }

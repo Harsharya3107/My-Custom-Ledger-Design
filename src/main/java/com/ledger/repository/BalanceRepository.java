@@ -16,7 +16,7 @@ public interface BalanceRepository extends JpaRepository<Balance, UUID> {
     // A second concurrent call simply blocks, then re-reads the fresh value —
     // no SELECT-then-check-then-write race window exists here at all.
     @Modifying(clearAutomatically = true)
-    @Query("UPDATE Balance b SET b.balance + :delta, b.updatedAt = CURRENT_TIMESTAMP " + "WHERE b.accountId = :accountId")
+    @Query("UPDATE Balance b SET b.balance = b.balance + :delta, b.updatedAt = CURRENT_TIMESTAMP " + "WHERE b.accountId = :accountId")
     int adjustBalance(@Param("accountId") UUID accountId, @Param("delta") long delta);
 
 }

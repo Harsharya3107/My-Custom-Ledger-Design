@@ -4,13 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ledger.domain.Entry;
 import com.ledger.domain.Transaction;
 import com.ledger.domain.TransactionStatus;
-import com.ledger.repository.TransactionRepository;
 
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
-public class TransactionResponse(
+public record TransactionResponse(
         UUID id,
         TransactionStatus status,
         @JsonProperty("created_at")Instant createdAt,
